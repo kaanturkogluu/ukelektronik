@@ -22,50 +22,42 @@
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-5">
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="btn-lg-square bg-primary rounded-circle me-3">
-                            <i class="fa fa-users text-white"></i>
-                        </div>
-                        <h1 class="mb-0" data-toggle="counter-up">3453</h1>
-                    </div>
-                    <h5 class="mb-3">{{ __('common.happy_customers') }}</h5>
-                    <span>{{ __('common.happy_customers_desc') }}</span>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="btn-lg-square bg-primary rounded-circle me-3">
+                <div class="col-md-6 col-lg-3 wow fadeIn text-center" data-wow-delay="0.1s">
+                    <div class="d-flex align-items-center justify-content-center mb-4">
+                        <div class="btn-lg-square bg-primary rounded-circle">
                             <i class="fa fa-check text-white"></i>
                         </div>
-                        <h1 class="mb-0" data-toggle="counter-up">4234</h1>
                     </div>
-                    <h5 class="mb-3">{{ __('common.completed_projects') }}</h5>
-                    <span>{{ __('common.completed_projects_desc') }}</span>
+                    <h5 class="mb-3">Kaliteli Hizmetler</h5>
                 </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="btn-lg-square bg-primary rounded-circle me-3">
-                            <i class="fa fa-award text-white"></i>
+                <div class="col-md-6 col-lg-3 wow fadeIn text-center" data-wow-delay="0.3s">
+                    <div class="d-flex align-items-center justify-content-center mb-4">
+                        <div class="btn-lg-square bg-primary rounded-circle">
+                            <i class="fa fa-user-check text-white"></i>
                         </div>
-                        <h1 class="mb-0" data-toggle="counter-up">3123</h1>
                     </div>
-                    <h5 class="mb-3">{{ __('common.awards_won') }}</h5>
-                    <span>{{ __('common.awards_won_desc') }}</span>
+                    <h5 class="mb-3">Uzman Çalışanlar</h5>
                 </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="btn-lg-square bg-primary rounded-circle me-3">
-                            <i class="fa fa-users-cog text-white"></i>
+                <div class="col-md-6 col-lg-3 wow fadeIn text-center" data-wow-delay="0.5s">
+                    <div class="d-flex align-items-center justify-content-center mb-4">
+                        <div class="btn-lg-square bg-primary rounded-circle">
+                            <i class="fa fa-drafting-compass text-white"></i>
                         </div>
-                        <h1 class="mb-0" data-toggle="counter-up">1831</h1>
                     </div>
-                    <h5 class="mb-3">{{ __('common.expert_employees') }}</h5>
-                    <span>{{ __('common.expert_employees_desc') }}</span>
+                    <h5 class="mb-3">Ücretsiz Danışmanlık</h5>
+                </div>
+                <div class="col-md-6 col-lg-3 wow fadeIn text-center" data-wow-delay="0.7s">
+                    <div class="d-flex align-items-center justify-content-center mb-4">
+                        <div class="btn-lg-square bg-primary rounded-circle">
+                            <i class="fa fa-headphones text-white"></i>
+                        </div>
+                    </div>
+                    <h5 class="mb-3">Müşteri Desteği</h5>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Feature Start -->
+    <!-- Feature End -->
 
     <!-- About Start -->
     <div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">

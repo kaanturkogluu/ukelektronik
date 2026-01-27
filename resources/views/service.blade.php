@@ -28,7 +28,7 @@
             <div class="row g-4">
                 @forelse($services as $index => $service)
                 <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="{{ ($index % 3) * 0.2 }}s">
-                    <a href="{{ route('quote') }}" class="text-decoration-none">
+                    <a href="{{ route('service.detail', $service->slug) }}" class="text-decoration-none">
                         <div class="service-item rounded overflow-hidden" style="cursor: pointer; transition: transform 0.3s;">
                             <div style="height: 250px; background-color: #f8f9fa; overflow: hidden;">
                                 @if(!empty($service->image))
@@ -53,7 +53,7 @@
                                 <h4 class="mb-3" style="color: #1A2A36;">{{ $service->title }}</h4>
                                 @endif
                                 <p style="color: #6c757d;">{{ $service->short_description }}</p>
-                                <span class="small fw-medium text-primary">{{ __('common.energy_calculator') }}<i class="fa fa-arrow-right ms-2"></i></span>
+                                <span class="small fw-medium text-primary">Detayları Gör<i class="fa fa-arrow-right ms-2"></i></span>
                             </div>
                         </div>
                     </a>
@@ -136,4 +136,17 @@
     <!-- Feature End -->
 
 @endsection
+
+@push('styles')
+<style>
+    .service-item {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .service-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+</style>
+@endpush
 
