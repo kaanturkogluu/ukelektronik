@@ -63,11 +63,6 @@
             </div>
             
             <div class="mb-3">
-                <label class="form-label">Kısa Açıklama * <small class="text-muted">(Ürün listesinde görünecek kısa açıklama)</small></label>
-                <textarea class="form-control" name="short_description" rows="2" required>{{ old('short_description') }}</textarea>
-            </div>
-            
-            <div class="mb-3">
                 <label class="form-label">Detaylı Açıklama <small class="text-muted">(Ürün detay sayfasında görünecek uzun açıklama)</small></label>
                 <textarea class="form-control" name="description" rows="5">{{ old('description') }}</textarea>
             </div>

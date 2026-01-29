@@ -178,14 +178,6 @@ class ImportProductsFromXml extends Command
                     $image = "/img/img-600x400-{$randomImage}.jpg";
                 }
                 
-                // Prepare short description (first 150 chars of details or label)
-                $shortDescription = '';
-                if (!empty($details)) {
-                    $shortDescription = Str::limit(strip_tags($details), 150);
-                } else {
-                    $shortDescription = Str::limit($label, 150);
-                }
-                
                 // Sanitize HTML description
                 $sanitizedDescription = $this->sanitizeHtml($details);
                 
@@ -195,7 +187,6 @@ class ImportProductsFromXml extends Command
                     'name' => $label,
                     'category_id' => $categoryId,
                     'image' => $image,
-                    'short_description' => $shortDescription,
                     'description' => $sanitizedDescription,
                     'specs' => !empty($specs) ? json_encode([$specs]) : null,
                     'features' => null,

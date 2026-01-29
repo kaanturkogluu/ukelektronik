@@ -86,12 +86,12 @@
                                     </div>
                                     <div class="p-4">
                                         <h5 class="mb-2 text-dark">{{ $product->name }}</h5>
-                                        <p class="text-muted small mb-3" style="min-height: 40px;">{{ $product->short_description }}</p>
+                                        <!-- <p class="text-muted small mb-3" style="min-height: 40px;">{{ $product->short_description }}</p> -->
                                     </div>
                                 </a>
                                 <div class="px-4 pb-4">
                                     <a href="{{ route('product.detail', $product->slug) }}" class="btn btn-primary btn-sm w-100">
-                                        <i class="fa fa-eye me-1"></i>Ürün Detaya
+                                        <i class="fa fa-eye me-1"></i>Ürün Detay
                                     </a>
                                 </div>
                             </div>

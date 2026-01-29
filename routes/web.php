@@ -247,58 +247,16 @@ Route::get('/product/{slug}', function ($slug) {
         $productImageUrl = url(asset('img/img-600x400-1.jpg'));
     }
     
-    // Get WhatsApp number from settings
+    // WhatsApp mesajı: ürün adı ve resmi ile birlikte bilgi talebi
+    $whatsappMessage = "Merhaba, Ürün Hakkında Bilgi almak istiyorum.\n\n";
+    $whatsappMessage .= "*Ürün Adı:* " . $product->name . "\n";
+    $whatsappMessage .= "*Ürün Görseli:* " . $productImageUrl . "\n";
+    $whatsappMessage .= "*Ürün Linki:* " . url()->current();
+    
+    // Önce ürün WhatsApp numarası, yoksa iletişimdeki WhatsApp kullan
     $whatsappNumber = Setting::get('product_whatsapp', '');
     
-    // Build WhatsApp message with product info and image link
-    // Put image URL at the beginning for better WhatsApp preview
-    $whatsappMessage = "Merhaba, *" . $product->name . "* ürünü hakkında bilgi almak istiyorum.\n\n";
-    $whatsappMessage .= "*Ürün Görseli:*\n" . $productImageUrl . "\n\n";
-    $whatsappMessage .= "*Ürün Adı:* " . $product->name . "\n";
-    if ($product->category) {
-        $whatsappMessage .= "*Kategori:* " . ($product->category->name ?? '') . "\n";
-    }
-    $whatsappMessage .= "*Ürün Linki:* " . url()->current() . "\n";
-    if ($product->short_description) {
-        // Limit description to 200 characters for WhatsApp message
-        $description = mb_substr($product->short_description, 0, 200);
-        if (mb_strlen($product->short_description) > 200) {
-            $description .= '...';
-        }
-        $whatsappMessage .= "\n*Açıklama:*\n" . $description . "\n";
-    }
-    if (!empty($features) && count($features) > 0) {
-        $whatsappMessage .= "\n*Özellikler:*\n";
-        // Limit to first 5 features
-        $displayFeatures = array_slice($features, 0, 5);
-        foreach ($displayFeatures as $feature) {
-            $whatsappMessage .= "• " . $feature . "\n";
-        }
-        if (count($features) > 5) {
-            $whatsappMessage .= "... ve " . (count($features) - 5) . " özellik daha\n";
-        }
-    }
-    $whatsappMessage .= "\nLütfen bu ürün hakkında detaylı bilgi verebilir misiniz?";
-    
-    // Build WhatsApp URL
-    $whatsappUrl = '';
-    if ($whatsappNumber) {
-        // Clean phone number - remove spaces, dashes, parentheses
-        $cleanNumber = preg_replace('/[^0-9+]/', '', $whatsappNumber);
-        // Ensure it starts with country code
-        if (!str_starts_with($cleanNumber, '+')) {
-            if (str_starts_with($cleanNumber, '0')) {
-                $cleanNumber = '+90' . substr($cleanNumber, 1);
-            } else {
-                $cleanNumber = '+90' . $cleanNumber;
-            }
-        }
-        // Remove + for WhatsApp URL (only numbers)
-        $phoneDigits = preg_replace('/[^0-9]/', '', $cleanNumber);
-        $whatsappUrl = 'https://wa.me/' . $phoneDigits . '?text=' . urlencode($whatsappMessage);
-    }
-    
-    // Get contact information from settings
+    // Get contact information from settings (whatsapp_url için gerekebilir)
     $phonesJson = Setting::get('phones', '[]');
     $phones = is_string($phonesJson) ? json_decode($phonesJson, true) : [];
     if (!is_array($phones)) $phones = [];
@@ -309,6 +267,21 @@ Route::get('/product/{slug}', function ($slug) {
     }
     if (empty($phones)) $phones = [['number' => '+90 (212) 123 45 67', 'type' => 'phone']];
     
+    // WhatsApp URL: product_whatsapp yoksa iletişimdeki ilk WhatsApp numarasını kullan
+    if (empty($whatsappNumber)) {
+        $whatsappEntry = collect($phones)->first(fn ($p) => ($p['type'] ?? '') === 'whatsapp');
+        $whatsappNumber = $whatsappEntry['number'] ?? $phones[0]['number'] ?? '';
+    }
+    $whatsappUrl = '';
+    if (!empty($whatsappNumber)) {
+        $cleanNumber = preg_replace('/[^0-9+]/', '', $whatsappNumber);
+        if (!str_starts_with($cleanNumber, '+')) {
+            $cleanNumber = str_starts_with($cleanNumber, '0') ? '+90' . substr($cleanNumber, 1) : '+90' . $cleanNumber;
+        }
+        $phoneDigits = preg_replace('/[^0-9]/', '', $cleanNumber);
+        $whatsappUrl = 'https://wa.me/' . $phoneDigits . '?text=' . urlencode($whatsappMessage);
+    }
+    
     $emailsJson = Setting::get('emails', '[]');
     $emails = is_string($emailsJson) ? json_decode($emailsJson, true) : [];
     if (!is_array($emails)) $emails = [];
@@ -316,67 +289,102 @@ Route::get('/product/{slug}', function ($slug) {
     
     $address = Setting::get('address', 'Dörtyol, Hatay, Türkiye');
     
-    // Split description into bullet points
+    // Description: DB'de direkt HTML (tablo kodu vb.) geliyorsa liste yapma, olduğu gibi view'da HTML render edilecek
     $descriptionItems = [];
-    $description = $product->description ?: $product->short_description;
+    $description = $product->description ?? '';
+    // DB'de HTML entity olarak saklanmışsa gerçek HTML'e çevir, ekranda tag olarak değil içerik olarak görünsün
     if (!empty($description)) {
-        // First, try to split by common patterns
-        // Split by double newlines (paragraph breaks)
+        $description = html_entity_decode($description, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+    $isHtmlDescription = !empty($description) && preg_match('/<\s*(table|tr|td|th|div|p|br|ul|ol|li|figure|img)\b/i', $description);
+    if (!empty($description) && !$isHtmlDescription) {
+        // Sadece düz metin ise paragraf/cümle olarak böl
         $paragraphs = preg_split('/\n\s*\n|\r\n\s*\r\n/', $description);
-        
         foreach ($paragraphs as $paragraph) {
             $paragraph = trim($paragraph);
             if (empty($paragraph)) continue;
-            
-            // Check if paragraph contains multiple sentences (split by period + space or newline)
             if (preg_match('/[\.;]\s+|\n/', $paragraph)) {
-                // Split into sentences
                 $sentences = preg_split('/[\.;]\s+/', $paragraph);
                 foreach ($sentences as $sentence) {
-                    $sentence = trim($sentence);
-                    // Remove leading dashes, bullets, numbers if any
-                    $sentence = preg_replace('/^[\-\•\*\d\.\)\s]+/', '', $sentence);
+                    $sentence = trim(preg_replace('/^[\-\•\*\d\.\)\s]+/', '', $sentence));
                     if (!empty($sentence) && strlen($sentence) > 3) {
                         $descriptionItems[] = $sentence;
                     }
                 }
             } else {
-                // Single item, clean it up
-                $item = preg_replace('/^[\-\•\*\d\.\)\s]+/', '', $paragraph);
+                $item = trim(preg_replace('/^[\-\•\*\d\.\)\s]+/', '', $paragraph));
                 if (!empty($item) && strlen($item) > 3) {
                     $descriptionItems[] = $item;
                 }
             }
         }
-        
-        // If no items found, try splitting by single newlines
         if (empty($descriptionItems)) {
             $lines = preg_split('/[\r\n]+/', $description);
             foreach ($lines as $line) {
-                $line = trim($line);
+                $line = trim(preg_replace('/^[\-\•\*\d\.\)\s]+/', '', trim($line)));
                 if (!empty($line) && strlen($line) > 3) {
-                    $line = preg_replace('/^[\-\•\*\d\.\)\s]+/', '', $line);
-                    if (!empty($line)) {
-                        $descriptionItems[] = $line;
-                    }
+                    $descriptionItems[] = $line;
                 }
             }
         }
     }
     
+    // Açıklamadaki <figure class="image"> sarmalayıcısını kaldır, sadece içerik (img) kalsın
+    if (!empty($description)) {
+        $description = preg_replace('/<figure\s+class="image"\s*>([\s\S]*?)<\/figure>/iu', '$1', $description);
+        // Resim linklerini düzelt: /storage/ mutlak yol subdirectory'de kırık verir, asset() ile base URL ekle
+        $storageBase = rtrim(asset('storage'), '/');
+        $description = preg_replace_callback('#src\s*=\s*(["\'])(/storage/[^"\']+)\1#i', function ($m) use ($storageBase) {
+            return 'src=' . $m[1] . $storageBase . substr($m[2], 8) . $m[1]; // 8 = strlen('/storage')
+        }, $description);
+    }
+    
+    // Ana ürün resmi /storage/ ile başlıyorsa base URL ekle (subdirectory'de kırık link olmasın)
+    $productImage = $product->image ?: 'img/img-600x400-1.jpg';
+    if (str_starts_with($productImage, '/storage/')) {
+        $productImage = rtrim(asset('storage'), '/') . substr($productImage, 8);
+    }
+    
     $productData = [
         'name' => $product->name,
         'category' => $product->category ? $product->category->name : '',
-        'image' => $product->image ?: 'img/img-600x400-1.jpg',
+        'image' => $productImage,
         'description' => $description,
         'description_items' => $descriptionItems,
-        'short_description' => $product->short_description,
         'specs' => $specs,
         'features' => $features,
         'whatsapp_url' => $whatsappUrl
     ];
 
-    return view('product-detail', ['product' => $productData, 'phones' => $phones, 'emails' => $emails, 'address' => $address]);
+    // Benzer ürünler: aynı kategoriden 6 ürün (mevcut hariç)
+    $similarProducts = Product::with('category')
+        ->where('is_active', true)
+        ->where('id', '!=', $product->id)
+        ->when($product->category_id, fn ($q) => $q->where('category_id', $product->category_id))
+        ->inRandomOrder()
+        ->limit(6)
+        ->get();
+    $storageBase = rtrim(asset('storage'), '/');
+    $similarProducts = $similarProducts->map(function ($p) use ($storageBase) {
+        $img = $p->image ?: 'img/img-600x400-1.jpg';
+        if (str_starts_with($img, '/storage/')) {
+            $img = $storageBase . substr($img, 8);
+        }
+        return [
+            'name' => $p->name,
+            'slug' => $p->slug,
+            'image' => $img,
+            'category' => $p->category ? $p->category->name : '',
+        ];
+    });
+
+    return view('product-detail', [
+        'product' => $productData,
+        'similarProducts' => $similarProducts,
+        'phones' => $phones,
+        'emails' => $emails,
+        'address' => $address
+    ]);
 })->name('product.detail');
 
 Route::get('/datacenter', function () {

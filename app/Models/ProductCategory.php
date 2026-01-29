@@ -10,12 +10,37 @@ class ProductCategory extends Model
     use HasFactory;
 
     protected $fillable = [
+        'parent_id',
         'name',
         'slug',
         'description',
         'is_active',
         'sort_order',
     ];
+
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
+    /**
+     * Path from root to this category (for breadcrumb / tree display).
+     */
+    public function getPathFromRoot()
+    {
+        $path = collect();
+        $current = $this;
+        while ($current) {
+            $path->prepend($current);
+            $current = $current->parent;
+        }
+        return $path;
+    }
 
     protected $casts = [
         'name' => 'array',

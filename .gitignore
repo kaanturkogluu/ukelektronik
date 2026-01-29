@@ -4,6 +4,7 @@
 /node_modules/
 /storage/*.key
 /storage/logs/
+/storage/app/*
 storage/framework/views/*
 /storage/framework/cache/
 /storage/framework/sessions/
@@ -20,6 +21,8 @@ storage/framework/views/*
 /.fleet
 /.idea
 /.vscode
+/urunler.json
+
 *.log
 *.cache
 .DS_Store

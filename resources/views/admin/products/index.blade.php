@@ -8,6 +8,9 @@
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Ürünler</h5>
         <div class="d-flex gap-2">
+            <a href="{{ route('admin.products.import-json') }}" class="btn btn-outline-primary">
+                <i class="fa fa-file-import me-2"></i>JSON İçe Aktar
+            </a>
             <a href="{{ route('admin.product-categories.index') }}" class="btn btn-info">
                 <i class="fa fa-tags me-2"></i>Kategorileri Yönet
             </a>

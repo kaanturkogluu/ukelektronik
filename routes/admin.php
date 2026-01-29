@@ -12,9 +12,8 @@ use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\DownloadController;
 use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\ProductJsonImportController;
 
-
- 
 // Admin Authentication
 Route::prefix('admin')->name('admin.')->group(function () {
     // Redirect /admin to /admin/login
@@ -35,6 +34,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         
         // Product Management
         Route::resource('products', ProductController::class);
+        Route::get('products/import/json', [ProductJsonImportController::class, 'show'])->name('products.import-json');
+        Route::post('products/import/json', [ProductJsonImportController::class, 'import'])->name('products.import-json.run');
         Route::resource('product-categories', ProductCategoryController::class);
         
         // Service Management

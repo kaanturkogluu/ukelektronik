@@ -30,7 +30,6 @@ class ProductController extends Controller
            
             'image' => 'nullable|string',
             'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'short_description' => 'required|string',
             'description' => 'nullable|string',
             'specs' => 'nullable',
             'features' => 'nullable',
@@ -117,7 +116,6 @@ class ProductController extends Controller
             'category_id' => 'required|exists:product_categories,id',
             'image' => 'nullable|string',
             'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'short_description' => 'required|string',
             'description' => 'nullable|string',
             'specs' => 'nullable',
             'features' => 'nullable',

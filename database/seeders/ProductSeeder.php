@@ -17,7 +17,6 @@ class ProductSeeder extends Seeder
                 'category' => 'gunes-panelleri',
                 'price' => 8500.00,
                 'image' => 'img/img-600x400-1.jpg',
-                'short_description' => 'Yüksek verimli monokristal güneş paneli, 25 yıl garanti ile uzun ömürlü ve güvenilir bir yatırımdır.',
                 'description' => 'Yüksek verimli monokristal güneş paneli. %22 verimlilik oranı ile enerji üretiminde maksimum performans sağlar. 25 yıl garanti ve uzun ömürlü yapısı ile güvenilir bir yatırımdır. Hava koşullarına dayanıklı yapısı ve kolay kurulum özelliği ile tercih edilen bir üründür. Çevre dostu teknoloji ile üretilmiştir.',
                 'specs' => [
                     'Güç' => '400W',
@@ -46,7 +45,6 @@ class ProductSeeder extends Seeder
                 'category' => 'bataryalar',
                 'price' => 25000.00,
                 'image' => 'img/img-600x400-2.jpg',
-                'short_description' => 'Uzun ömürlü lityum iyon batarya sistemi. 5000 döngü kapasitesi ile yıllarca güvenilir enerji depolama sağlar.',
                 'description' => 'Uzun ömürlü lityum iyon batarya sistemi. 5000 döngü kapasitesi ile yıllarca güvenilir enerji depolama sağlar. Yüksek kapasite ve hızlı şarj özelliği ile off-grid ve hibrit sistemler için ideal çözümdür. Güvenli kullanım ve uzaktan izleme özelliği ile kullanıcı dostu bir üründür.',
                 'specs' => [
                     'Kapasite' => '5 kWh',
@@ -75,7 +73,6 @@ class ProductSeeder extends Seeder
                 'category' => 'inverterler',
                 'price' => 12000.00,
                 'image' => 'img/img-600x400-3.jpg',
-                'short_description' => 'Şebeke bağlantılı yüksek verimli inverter. %98 verimlilik ile maksimum enerji dönüşümü sağlar.',
                 'description' => 'Şebeke bağlantılı yüksek verimli inverter. %98 verimlilik ile maksimum enerji dönüşümü sağlar. Uzaktan izleme özelliği ile sisteminizi her yerden takip edebilirsiniz. Kolay kurulum ve güvenilir çalışma özellikleri ile tercih edilen bir üründür.',
                 'specs' => [
                     'Güç' => '5 kW',
