@@ -157,7 +157,6 @@
                     <a href="{{ route('home') }}" class="nav-item nav-link text-white {{ request()->routeIs('home') ? 'active' : '' }}" style="color: white !important; font-weight: 500;">{{ __('common.home') }}</a>
                     <a href="{{ route('about') }}" class="nav-item nav-link text-white {{ request()->routeIs('about') ? 'active' : '' }}" style="color: white !important; font-weight: 500;">{{ __('common.about') }}</a>
                     <a href="{{ route('service') }}" class="nav-item nav-link text-white {{ request()->routeIs('service') ? 'active' : '' }}" style="color: white !important; font-weight: 500;">{{ __('common.services') }}</a>
-                    <a href="{{ route('project') }}" class="nav-item nav-link text-white {{ request()->routeIs('project') ? 'active' : '' }}" style="color: white !important; font-weight: 500;">{{ __('common.projects') }}</a>
                     <a href="{{ route('products') }}" class="nav-item nav-link text-white {{ request()->routeIs('products') ? 'active' : '' }}" style="color: white !important; font-weight: 500;">{{ __('common.products') }}</a>
                     <a href="{{ route('faq') }}" class="nav-item nav-link text-white {{ request()->routeIs('faq') ? 'active' : '' }}" style="color: white !important; font-weight: 500;">SSS</a>
                     <a href="{{ route('contact') }}" class="nav-item nav-link text-white {{ request()->routeIs('contact') ? 'active' : '' }}" style="color: white !important; font-weight: 500;">{{ __('common.contact') }}</a>
