@@ -36,34 +36,63 @@ class Project extends Model
         return $this->belongsTo(ProjectCategory::class, 'category_id');
     }
     
-    // Override getAttribute to return translated content
+    // Override getAttribute to return translated content (uses same decode as admin form)
     public function getAttribute($key)
     {
         $value = parent::getAttribute($key);
         
-        // Translate these fields based on current locale
         if (in_array($key, ['title', 'description'])) {
+            $translations = $this->decodeTranslationField(is_string($value) ? $value : (is_array($value) ? $value : null));
             $locale = app()->getLocale();
-            $translations = is_string($value) ? json_decode($value, true) : ($value ?? []);
-            
-            if (is_array($translations)) {
-                return $translations[$locale] ?? $translations['tr'] ?? $translations['en'] ?? '';
-            }
+            return $translations[$locale] ?? $translations['tr'] ?? $translations['en'] ?? '';
         }
         
         return $value;
     }
     
-    // Get raw translations for admin forms
-    public function getTitleTranslations()
+    /**
+     * Decode JSON translation string/array. Handles:
+     * - "{\"tr\":\"...\",\"en\":\"...\"}" (escaped JSON string, single or double encoded)
+     * - Already decoded array from cast/DB
+     * - Unicode escapes like \u0131 (ı) are decoded by json_decode
+     */
+    protected function decodeTranslationField($value): array
+    {
+        if ($value === null) {
+            return ['tr' => '', 'en' => ''];
+        }
+        if (is_array($value)) {
+            return [
+                'tr' => $value['tr'] ?? '',
+                'en' => $value['en'] ?? '',
+            ];
+        }
+        if (!is_string($value)) {
+            return ['tr' => '', 'en' => ''];
+        }
+        $decoded = json_decode($value, true);
+        // Double-encoded: first decode gave a string, decode again
+        if (is_string($decoded)) {
+            $decoded = json_decode($decoded, true);
+        }
+        if (!is_array($decoded)) {
+            return ['tr' => '', 'en' => ''];
+        }
+        return [
+            'tr' => $decoded['tr'] ?? '',
+            'en' => $decoded['en'] ?? '',
+        ];
+    }
+
+    public function getTitleTranslations(): array
     {
         $value = $this->attributes['title'] ?? null;
-        return is_string($value) ? json_decode($value, true) : ($value ?? ['tr' => '', 'en' => '']);
+        return $this->decodeTranslationField($value);
     }
-    
-    public function getDescriptionTranslations()
+
+    public function getDescriptionTranslations(): array
     {
         $value = $this->attributes['description'] ?? null;
-        return is_string($value) ? json_decode($value, true) : ($value ?? ['tr' => '', 'en' => '']);
+        return $this->decodeTranslationField($value);
     }
 }
