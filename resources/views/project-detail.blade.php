@@ -118,9 +118,46 @@
                         </div>
                         <div class="mb-4">
                             <h5 class="mb-3">İletişim</h5>
-                            <p class="mb-2"><i class="fa fa-phone-alt text-primary me-2"></i>+90 (212) 123 45 67</p>
-                            <p class="mb-2"><i class="fa fa-envelope text-primary me-2"></i>info@ukelektronik.com</p>
-                            <p class="mb-0"><i class="fa fa-map-marker-alt text-primary me-2"></i>Dörtyol, Hatay, Türkiye</p>
+                            @php
+                                $contactPhone = \App\Models\Setting::get('display_phone');
+                                if (empty($contactPhone)) {
+                                    $phonesJson = \App\Models\Setting::get('phones', '[]');
+                                    $phones = is_string($phonesJson) ? json_decode($phonesJson, true) : [];
+                                    $phones = is_array($phones) ? $phones : [];
+                                    if (!empty($phones)) {
+                                        $first = is_array($phones[0]) ? $phones[0] : ['number' => $phones[0], 'type' => 'phone'];
+                                        $contactPhone = $first['number'] ?? $first;
+                                    } else {
+                                        $contactPhone = '+90 (212) 123 45 67';
+                                    }
+                                }
+                                $contactPhoneType = 'phone';
+                                $phonesJson = \App\Models\Setting::get('phones', '[]');
+                                $phonesCheck = is_string($phonesJson) ? json_decode($phonesJson, true) : [];
+                                if (is_array($phonesCheck)) {
+                                    foreach ($phonesCheck as $p) {
+                                        $num = is_array($p) ? ($p['number'] ?? '') : $p;
+                                        if ($num == $contactPhone) {
+                                            $contactPhoneType = is_array($p) ? ($p['type'] ?? 'phone') : 'phone';
+                                            break;
+                                        }
+                                    }
+                                }
+                                $contactEmail = \App\Models\Setting::get('display_email');
+                                if (empty($contactEmail)) {
+                                    $emailsJson = \App\Models\Setting::get('emails', '[]');
+                                    $emailsArr = is_string($emailsJson) ? json_decode($emailsJson, true) : [];
+                                    $contactEmail = !empty($emailsArr) ? (is_array($emailsArr[0] ?? null) ? ($emailsArr[0]['email'] ?? $emailsArr[0]) : $emailsArr[0]) : 'info@ukelektronik.com';
+                                }
+                                $contactAddress = \App\Models\Setting::get('address', 'Dörtyol, Hatay, Türkiye');
+                            @endphp
+                            @if($contactPhoneType === 'whatsapp')
+                            <p class="mb-2"><i class="fab fa-whatsapp text-primary me-2"></i><a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $contactPhone) }}" target="_blank" class="text-decoration-none">{{ $contactPhone }}</a></p>
+                            @else
+                            <p class="mb-2"><i class="fa fa-phone-alt text-primary me-2"></i><a href="tel:{{ preg_replace('/[^0-9+]/', '', $contactPhone) }}" class="text-decoration-none">{{ $contactPhone }}</a></p>
+                            @endif
+                            <p class="mb-2"><i class="fa fa-envelope text-primary me-2"></i><a href="mailto:{{ $contactEmail }}" class="text-decoration-none">{{ $contactEmail }}</a></p>
+                            <p class="mb-0"><i class="fa fa-map-marker-alt text-primary me-2"></i><a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($contactAddress) }}" target="_blank" class="text-decoration-none">{{ $contactAddress }}</a></p>
                         </div>
                         <a href="{{ route('contact') }}" class="btn btn-primary w-100 py-3">İletişime Geç</a>
                     </div>
