@@ -28,3 +28,6 @@ storage/framework/views/*
 .DS_Store
 Thumbs.db
 
+# Yeni eklemeler
+.htaccess
+/public/storage/

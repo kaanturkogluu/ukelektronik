@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ProjectCategoryController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\DownloadController;
@@ -43,6 +44,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         
         // Project Management
         Route::resource('projects', ProjectController::class);
+        Route::resource('project-categories', ProjectCategoryController::class);
         
         // FAQ Management
         Route::resource('faqs', FaqController::class);

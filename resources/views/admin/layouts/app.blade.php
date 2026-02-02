@@ -135,8 +135,11 @@
             <a class="nav-link {{ request()->routeIs('admin.services.*') ? 'active' : '' }}" href="{{ route('admin.services.index') }}">
                 <i class="fa fa-cogs me-2"></i>Hizmetler
             </a>
-            <a class="nav-link {{ request()->routeIs('admin.projects.*') ? 'active' : '' }}" href="{{ route('admin.projects.index') }}">
+            <a class="nav-link {{ request()->routeIs('admin.projects.*') && !request()->routeIs('admin.project-categories.*') ? 'active' : '' }}" href="{{ route('admin.projects.index') }}">
                 <i class="fa fa-project-diagram me-2"></i>Projeler
+            </a>
+            <a class="nav-link {{ request()->routeIs('admin.project-categories.*') ? 'active' : '' }}" href="{{ route('admin.project-categories.index') }}">
+                <i class="fa fa-folder me-2"></i>Proje Kategorileri
             </a>
             <a class="nav-link {{ request()->routeIs('admin.faqs.*') ? 'active' : '' }}" href="{{ route('admin.faqs.index') }}">
                 <i class="fa fa-question-circle me-2"></i>SSS
@@ -186,8 +189,11 @@
                 <a class="nav-link {{ request()->routeIs('admin.services.*') ? 'active' : '' }}" href="{{ route('admin.services.index') }}" data-bs-dismiss="offcanvas">
                     <i class="fa fa-cogs me-2"></i>Hizmetler
                 </a>
-                <a class="nav-link {{ request()->routeIs('admin.projects.*') ? 'active' : '' }}" href="{{ route('admin.projects.index') }}" data-bs-dismiss="offcanvas">
+                <a class="nav-link {{ request()->routeIs('admin.projects.*') && !request()->routeIs('admin.project-categories.*') ? 'active' : '' }}" href="{{ route('admin.projects.index') }}" data-bs-dismiss="offcanvas">
                     <i class="fa fa-project-diagram me-2"></i>Projeler
+                </a>
+                <a class="nav-link {{ request()->routeIs('admin.project-categories.*') ? 'active' : '' }}" href="{{ route('admin.project-categories.index') }}" data-bs-dismiss="offcanvas">
+                    <i class="fa fa-folder me-2"></i>Proje Kategorileri
                 </a>
                 <a class="nav-link {{ request()->routeIs('admin.faqs.*') ? 'active' : '' }}" href="{{ route('admin.faqs.index') }}" data-bs-dismiss="offcanvas">
                     <i class="fa fa-question-circle me-2"></i>SSS
