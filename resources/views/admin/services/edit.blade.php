@@ -126,22 +126,52 @@
                 </div>
             </div>
 
-            <!-- Kısa Açıklama -->
+            <!-- Kısa Açıklama - Çoklu Dil -->
             <div class="mb-4">
                 <label class="form-label fw-bold">
                     Kısa Açıklama <span class="text-danger">*</span>
                     <small class="text-muted d-block fw-normal">→ Bu veri hizmet kartlarında kısa açıklama olarak gösterilir</small>
                 </label>
-                <textarea class="form-control" name="short_description" rows="3" required placeholder="Hizmetin kısa tanımı...">{{ old('short_description', $service->short_description) }}</textarea>
+                <ul class="nav nav-tabs mb-2" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#short_desc_tr" type="button" role="tab">Türkçe</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#short_desc_en" type="button" role="tab">English</button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="short_desc_tr" role="tabpanel">
+                        <textarea class="form-control" name="short_description_tr" rows="3" required placeholder="Hizmetin kısa tanımı...">{{ old('short_description_tr', $shortDescTranslations['tr'] ?? '') }}</textarea>
+                    </div>
+                    <div class="tab-pane fade" id="short_desc_en" role="tabpanel">
+                        <textarea class="form-control" name="short_description_en" rows="3" required placeholder="Short description of the service...">{{ old('short_description_en', $shortDescTranslations['en'] ?? '') }}</textarea>
+                    </div>
+                </div>
             </div>
 
-            <!-- Detaylı Açıklama -->
+            <!-- Detaylı Açıklama - Çoklu Dil -->
             <div class="mb-4">
                 <label class="form-label fw-bold">
                     Detaylı Açıklama <span class="text-danger">*</span>
                     <small class="text-muted d-block fw-normal">→ Bu veri hizmet detay sayfasında ana açıklama olarak gösterilir</small>
                 </label>
-                <textarea class="form-control" name="description" rows="6" required placeholder="Hizmetin detaylı açıklaması...">{{ old('description', $service->description) }}</textarea>
+                <ul class="nav nav-tabs mb-2" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#desc_tr" type="button" role="tab">Türkçe</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#desc_en" type="button" role="tab">English</button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="desc_tr" role="tabpanel">
+                        <textarea class="form-control" name="description_tr" rows="6" required placeholder="Hizmetin detaylı açıklaması (Türkçe)...">{{ old('description_tr', $descTranslations['tr'] ?? '') }}</textarea>
+                    </div>
+                    <div class="tab-pane fade" id="desc_en" role="tabpanel">
+                        <textarea class="form-control" name="description_en" rows="6" required placeholder="Detailed description of the service (English)...">{{ old('description_en', $descTranslations['en'] ?? '') }}</textarea>
+                    </div>
+                </div>
             </div>
             
             <!-- Özellikler -->

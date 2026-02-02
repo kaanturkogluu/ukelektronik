@@ -15,7 +15,7 @@
                             <div class="col-10 col-lg-8">
                                 <h1 class="display-2 text-white animated slideInDown">{{ $slider->title }}</h1>
                                 <p class="fs-5 fw-medium text-white mb-4 pb-3">{{ $slider->description }}</p>
-                                @if($slider->button_text && $slider->button_link)
+                                @if($slider->button_text && $slider->button_link && !str_contains($slider->button_link, 'quote'))
                                 <a href="{{ $slider->button_link }}" class="btn btn-primary rounded-pill py-3 px-5 animated slideInLeft">{{ $slider->button_text }}</a>
                                 @endif
                             </div>
@@ -33,7 +33,7 @@
                             <div class="col-10 col-lg-8">
                                 <h1 class="display-2 text-white animated slideInDown">{{ __('common.home') }}</h1>
                                 <p class="fs-5 fw-medium text-white mb-4 pb-3">{{ __('common.welcome_message') }}</p>
-                                <a href="{{ route('quote') }}" class="btn btn-primary rounded-pill py-3 px-5 animated slideInLeft">{{ __('common.energy_calculator') }}</a>
+                                <a href="{{ route('contact') }}" class="btn btn-primary rounded-pill py-3 px-5 animated slideInLeft">{{ __('common.contact') }}</a>
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                         <p class="mb-3"><em>Bizim için güneş enerjisi sadece bir yatırım değil; daha temiz bir gelecek, daha düşük enerji maliyeti ve daha sürdürülebilir bir dünya demektir.</em></p>
                         <p class="mb-3"><strong>UK Elektronik olarak hedefimiz;</strong> müşteri memnuniyetini her zaman ön planda tutarak, güvenilir, şeffaf ve yenilikçi çözümlerle sektörde kalıcı ve güçlü bir marka olmaktır.</p>
                         <p class="mb-4"><strong>Geleceğin enerjisini bugünden çatınıza taşıyoruz.</strong></p>
-                        <a href="{{ route('quote') }}" class="btn btn-primary rounded-pill py-3 px-5 mt-3">{{ __('common.energy_calculator') }}</a>
+                        <a href="{{ route('contact') }}" class="btn btn-primary rounded-pill py-3 px-5 mt-3">{{ __('common.contact') }}</a>
                     </div>
                 </div>
             </div>
@@ -128,7 +128,7 @@
             <div class="row g-4">
                 @forelse($services as $index => $service)
                 <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="{{ ($index % 3) * 0.2 + 0.1 }}s">
-                    <a href="{{ route('quote') }}" class="text-decoration-none">
+                    <a href="{{ route('service.detail', $service->slug) }}" class="text-decoration-none">
                         <div class="service-item rounded overflow-hidden" style="cursor: pointer; transition: transform 0.3s;">
                             <div style="height: 250px; background-color: #f8f9fa; overflow: hidden;">
                                 @if(!empty($service->image))
@@ -153,7 +153,7 @@
                                 <h4 class="mb-3" style="color: #1A2A36;">{{ $service->title }}</h4>
                                 @endif
                                 <p style="color: #6c757d;">{{ $service->short_description }}</p>
-                                <span class="small fw-medium text-primary">{{ __('common.energy_calculator') }}<i class="fa fa-arrow-right ms-2"></i></span>
+                                <span class="small fw-medium text-primary">{{ __('common.our_services') }}<i class="fa fa-arrow-right ms-2"></i></span>
                             </div>
                         </div>
                     </a>

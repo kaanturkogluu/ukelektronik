@@ -423,11 +423,13 @@ Route::get('/feature', function () {
     return view('feature');
 })->name('feature');
 
+// Enerji hesaplama geçici kapalı
 Route::get('/quote', function () {
-    return view('quote');
+    abort(404);
+    // return view('quote');
 })->name('quote');
 
-Route::post('/quote/save', [App\Http\Controllers\QuoteController::class, 'store'])->name('quote.save');
+// Route::post('/quote/save', [App\Http\Controllers\QuoteController::class, 'store'])->name('quote.save');
 
 Route::get('/team', function () {
     $teams = Team::where('is_active', true)

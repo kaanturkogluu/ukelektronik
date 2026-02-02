@@ -161,7 +161,9 @@
                     <a href="{{ route('faq') }}" class="nav-item nav-link text-white {{ request()->routeIs('faq') ? 'active' : '' }}" style="color: white !important; font-weight: 500;">SSS</a>
                     <a href="{{ route('contact') }}" class="nav-item nav-link text-white {{ request()->routeIs('contact') ? 'active' : '' }}" style="color: white !important; font-weight: 500;">{{ __('common.contact') }}</a>
                 </div>
+                {{-- Enerji hesaplama geçici kapalı
                 <a href="{{ route('quote') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Enerji Hesaplama<i class="fa fa-arrow-right ms-3"></i></a>
+                --}}
                 
                 <!-- Mobile Topbar Content -->
                 <div class="d-lg-none border-top border-secondary mt-2 pt-2 px-3 pb-2">
