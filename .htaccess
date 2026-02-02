@@ -1,9 +1,0 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-
-    # Boş istekleri public/ dizinine yönlendir
-    RewriteRule ^$ public/ [L]
-
-    # Diğer tüm istekleri public/ altına yönlendir
-    RewriteRule ^(.*)$ public/$1 [L]
-</IfModule>
