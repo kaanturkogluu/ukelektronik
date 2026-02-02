@@ -29,7 +29,7 @@ class ProjectController extends Controller
             'title_en' => 'required|string|max:255',
             'category_id' => 'required|exists:project_categories,id',
             'image' => 'nullable|string',
-            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'description_tr' => 'required|string',
             'description_en' => 'required|string',
             'details' => 'nullable',
@@ -37,7 +37,7 @@ class ProjectController extends Controller
             'gallery_urls' => 'nullable|array',
             'gallery_urls.*' => 'nullable|string',
             'gallery_files' => 'nullable|array',
-            'gallery_files.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'gallery_files.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'sort_order' => 'nullable|integer',
         ]);
 
@@ -182,7 +182,7 @@ class ProjectController extends Controller
             'title_en' => 'required|string|max:255',
             'category_id' => 'required|exists:project_categories,id',
             'image' => 'nullable|string',
-            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'description_tr' => 'required|string',
             'description_en' => 'required|string',
             'details' => 'nullable',
@@ -190,7 +190,7 @@ class ProjectController extends Controller
             'gallery_urls' => 'nullable|array',
             'gallery_urls.*' => 'nullable|string',
             'gallery_files' => 'nullable|array',
-            'gallery_files.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'gallery_files.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'sort_order' => 'nullable|integer',
         ]);
 
