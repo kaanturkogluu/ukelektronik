@@ -1,4 +1,5 @@
-
+/bootstrap/*
+/bootstrap/cache
 /vendor/
 /vendor/*
 /node_modules/

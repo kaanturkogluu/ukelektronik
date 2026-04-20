@@ -92,9 +92,69 @@
                         </div>
                         <div class="mb-4">
                             <h5 class="mb-3">İletişim</h5>
-                            <p class="mb-2"><i class="fa fa-phone-alt text-primary me-2"></i>+90 (212) 123 45 67</p>
-                            <p class="mb-2"><i class="fa fa-envelope text-primary me-2"></i>info@ukelektronik.com</p>
-                            <p class="mb-0"><i class="fa fa-map-marker-alt text-primary me-2"></i>Dörtyol, Hatay, Türkiye</p>
+                            @php
+                                $displayPhone = \App\Models\Setting::get('display_phone');
+                                $displayPhoneType = 'phone';
+                                if (empty($displayPhone)) {
+                                    $phonesJson = \App\Models\Setting::get('phones', '[]');
+                                    $phones = is_string($phonesJson) ? json_decode($phonesJson, true) : [];
+                                    if (!is_array($phones)) $phones = [];
+                                    if (!empty($phones)) {
+                                        $firstPhone = is_array($phones[0]) ? $phones[0] : ['number' => $phones[0], 'type' => 'phone'];
+                                        $displayPhone = $firstPhone['number'] ?? ($firstPhone ?? '');
+                                        $displayPhoneType = $firstPhone['type'] ?? 'phone';
+                                    } else {
+                                        $displayPhone = '+90 (212) 123 45 67';
+                                    }
+                                } else {
+                                    $phonesJson = \App\Models\Setting::get('phones', '[]');
+                                    $phones = is_string($phonesJson) ? json_decode($phonesJson, true) : [];
+                                    if (!is_array($phones)) $phones = [];
+                                    foreach ($phones as $phone) {
+                                        $phoneNumber = is_array($phone) ? ($phone['number'] ?? '') : $phone;
+                                        if ($phoneNumber == $displayPhone) {
+                                            $displayPhoneType = is_array($phone) ? ($phone['type'] ?? 'phone') : 'phone';
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                $displayEmail = \App\Models\Setting::get('display_email');
+                                if (empty($displayEmail)) {
+                                    $emailsJson = \App\Models\Setting::get('emails', '[]');
+                                    $emails = is_string($emailsJson) ? json_decode($emailsJson, true) : [];
+                                    if (!is_array($emails)) $emails = [];
+                                    $displayEmail = !empty($emails) ? $emails[0] : 'info@ukelektronik.com';
+                                }
+
+                                $displayAddress = \App\Models\Setting::get('address', 'Dörtyol, Hatay, Türkiye');
+                            @endphp
+
+                            <p class="mb-2">
+                                @if($displayPhoneType === 'whatsapp')
+                                    <i class="fab fa-whatsapp text-primary me-2"></i>
+                                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $displayPhone) }}" target="_blank" class="text-decoration-none">
+                                        {{ $displayPhone }}
+                                    </a>
+                                @else
+                                    <i class="fa fa-phone-alt text-primary me-2"></i>
+                                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $displayPhone) }}" class="text-decoration-none">
+                                        {{ $displayPhone }}
+                                    </a>
+                                @endif
+                            </p>
+
+                            <p class="mb-2">
+                                <i class="fa fa-envelope text-primary me-2"></i>
+                                <a href="mailto:{{ $displayEmail }}" class="text-decoration-none">{{ $displayEmail }}</a>
+                            </p>
+
+                            <p class="mb-0">
+                                <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                                <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($displayAddress) }}" target="_blank" class="text-decoration-none">
+                                    {{ $displayAddress }}
+                                </a>
+                            </p>
                         </div>
                         <a href="{{ route('contact') }}" class="btn btn-primary w-100 py-3">İletişime Geç</a>
                     </div>
