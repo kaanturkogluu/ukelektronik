@@ -72,15 +72,48 @@ class ProductCategory extends Model
     }
     
     // Get raw translations for admin forms
+    protected function normalizeTranslations($value): array
+    {
+        // If it's already an array with language keys, return as-is (merged with defaults)
+        if (is_array($value)) {
+            return array_merge(['tr' => '', 'en' => ''], $value);
+        }
+
+        // If it's a JSON string, decode it (supports double-encoded JSON)
+        if (is_string($value)) {
+            $current = $value;
+            for ($i = 0; $i < 2; $i++) {
+                $decoded = json_decode($current, true);
+
+                if (is_array($decoded)) {
+                    return array_merge(['tr' => '', 'en' => ''], $decoded);
+                }
+
+                // If decoding results in a string, it was likely JSON encoded twice.
+                if (is_string($decoded)) {
+                    $current = $decoded;
+                    continue;
+                }
+
+                break;
+            }
+
+            // Fallback: old format plain string (assume TR)
+            return ['tr' => $value, 'en' => ''];
+        }
+
+        return ['tr' => '', 'en' => ''];
+    }
+
     public function getNameTranslations()
     {
         $value = $this->attributes['name'] ?? null;
-        return is_string($value) ? json_decode($value, true) : ($value ?? ['tr' => '', 'en' => '']);
+        return $this->normalizeTranslations($value);
     }
     
     public function getDescriptionTranslations()
     {
         $value = $this->attributes['description'] ?? null;
-        return is_string($value) ? json_decode($value, true) : ($value ?? ['tr' => '', 'en' => '']);
+        return $this->normalizeTranslations($value);
     }
 }
