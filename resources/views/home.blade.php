@@ -353,10 +353,10 @@
                     <div class="partner-item p-4 rounded bg-white shadow-sm h-100 d-flex align-items-center justify-content-center" style="transition: all 0.3s ease-in-out; border: 1px solid #eee;">
                         @if($partner->link)
                             <a href="{{ $partner->link }}" target="_blank" class="d-block w-100 h-100 d-flex align-items-center justify-content-center">
-                                <img class="img-fluid" src="{{ str_starts_with($partner->logo, 'http') ? $partner->logo : asset($partner->logo) }}" alt="{{ $partner->name }}" style="max-height: 60px; width: auto; filter: grayscale(100%); transition: filter 0.3s ease;">
+                                <img class="img-fluid" src="{{ str_starts_with($partner->logo, 'http') ? $partner->logo : asset($partner->logo) }}" alt="{{ $partner->name }}" style="max-height: 60px; width: auto;">
                             </a>
                         @else
-                            <img class="img-fluid" src="{{ str_starts_with($partner->logo, 'http') ? $partner->logo : asset($partner->logo) }}" alt="{{ $partner->name }}" style="max-height: 60px; width: auto; filter: grayscale(100%);">
+                            <img class="img-fluid" src="{{ str_starts_with($partner->logo, 'http') ? $partner->logo : asset($partner->logo) }}" alt="{{ $partner->name }}" style="max-height: 60px; width: auto;">
                         @endif
                     </div>
                 </div>
@@ -369,9 +369,6 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
             border-color: var(--bs-primary) !important;
-        }
-        .partner-item:hover img {
-            filter: grayscale(0%) !important;
         }
     </style>
     @endif
