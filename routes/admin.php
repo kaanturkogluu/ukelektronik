@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\DownloadController;
 use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\ProductJsonImportController;
 
 // Admin Authentication
@@ -58,6 +59,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         
         // Team Management
         Route::resource('teams', TeamController::class);
+
+        // Partner Management
+        Route::resource('partners', PartnerController::class);
     });
 });
 

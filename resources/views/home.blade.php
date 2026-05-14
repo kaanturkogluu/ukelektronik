@@ -338,5 +338,43 @@
         </div>
     </div>
     <!-- Team End -->
+
+    <!-- Partner Start -->
+    @if(count($partners) > 0)
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <h6 class="text-primary">Çözüm Ortaklarımız</h6>
+                <h1 class="mb-4">Birlikte Güçlüyüz</h1>
+            </div>
+            <div class="row g-4 justify-content-center">
+                @foreach($partners as $index => $partner)
+                <div class="col-6 col-md-4 col-lg-2 wow fadeInUp" data-wow-delay="{{ 0.1 + ($index * 0.1) }}s">
+                    <div class="partner-item p-4 rounded bg-white shadow-sm h-100 d-flex align-items-center justify-content-center" style="transition: all 0.3s ease-in-out; border: 1px solid #eee;">
+                        @if($partner->link)
+                            <a href="{{ $partner->link }}" target="_blank" class="d-block w-100 h-100 d-flex align-items-center justify-content-center">
+                                <img class="img-fluid" src="{{ str_starts_with($partner->logo, 'http') ? $partner->logo : asset($partner->logo) }}" alt="{{ $partner->name }}" style="max-height: 60px; width: auto; filter: grayscale(100%); transition: filter 0.3s ease;">
+                            </a>
+                        @else
+                            <img class="img-fluid" src="{{ str_starts_with($partner->logo, 'http') ? $partner->logo : asset($partner->logo) }}" alt="{{ $partner->name }}" style="max-height: 60px; width: auto; filter: grayscale(100%);">
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <style>
+        .partner-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+            border-color: var(--bs-primary) !important;
+        }
+        .partner-item:hover img {
+            filter: grayscale(0%) !important;
+        }
+    </style>
+    @endif
+    <!-- Partner End -->
 @endsection
 

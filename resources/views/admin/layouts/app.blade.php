@@ -150,6 +150,9 @@
             <a class="nav-link {{ request()->routeIs('admin.teams.*') ? 'active' : '' }}" href="{{ route('admin.teams.index') }}">
                 <i class="fa fa-users me-2"></i>Ekip Üyeleri
             </a>
+            <a class="nav-link {{ request()->routeIs('admin.partners.*') ? 'active' : '' }}" href="{{ route('admin.partners.index') }}">
+                <i class="fa fa-handshake me-2"></i>Çözüm Ortakları
+            </a>
             <a class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.index') }}">
                 <i class="fa fa-cog me-2"></i>Ayarlar
             </a>
@@ -203,6 +206,9 @@
                 </a>
                 <a class="nav-link {{ request()->routeIs('admin.teams.*') ? 'active' : '' }}" href="{{ route('admin.teams.index') }}" data-bs-dismiss="offcanvas">
                     <i class="fa fa-users me-2"></i>Ekip Üyeleri
+                </a>
+                <a class="nav-link {{ request()->routeIs('admin.partners.*') ? 'active' : '' }}" href="{{ route('admin.partners.index') }}" data-bs-dismiss="offcanvas">
+                    <i class="fa fa-handshake me-2"></i>Çözüm Ortakları
                 </a>
                 <a class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.index') }}" data-bs-dismiss="offcanvas">
                     <i class="fa fa-cog me-2"></i>Ayarlar

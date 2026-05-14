@@ -10,8 +10,8 @@ use App\Models\Faq;
 use App\Models\Setting;
 use App\Models\DownloadItem;
 use App\Models\Team;
+use App\Models\Partner;
 use App\Http\Controllers\ContactController;
-use Illuminate\Support\Facades\App;
 
 // Language switcher route
 Route::get('/lang', function () {
@@ -40,6 +40,10 @@ Route::get('/', function () {
         ->limit(6)
         ->get();
     
+    $partners = Partner::where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+    
     $categories = ProjectCategory::where('is_active', true)
         ->orderBy('sort_order')
         ->get();
@@ -48,7 +52,7 @@ Route::get('/', function () {
         ->orderBy('sort_order')
         ->get();
     
-    return view('home', compact('services', 'projects', 'teams', 'categories', 'sliders'));
+    return view('home', compact('services', 'projects', 'teams', 'categories', 'sliders', 'partners'));
 
 })->name('home');
 
